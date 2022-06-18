@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<head>
+    <title>Twitter Receipts</title>
+   
+    
+</head>
+<body>
+
+<h3>When someone's talking on Twitter, get the receipts.</h3>
+
+<h4>Twitter Receipts has you enter a Twitter handle and a date, then queries The Wayback Machine for the closest 
+    snapshot of the Twitter handle to that date. Sometimes the Twitter interface might be in a different language, but all the content I've seen is in English.
+    The Wayback Machine page opens in a new URL. 
+</h4>
+
+
+    <label>Twitter Handle To Search</label>
+     <input type="text" class="handle" value="mashable"><br>  <br>
+
+
+    <label>Year</label>
+    <input type="number" class="year" min="2007" value="2018"><br><br>
+
+    <label>Month</label>
+    <input type="number" class="month" size="2" minlength="2" maxlength="2" value="01"><br><br>
+
+    <label>Day</label>
+    <input type="number" class="day" min="1" max="31" value="1">
+
+    
+
+<br><br>
+
+  
+
+ <button onclick="getReceipts()">Translate to Twitter Search</button><br><br>
+
+<div class="thisstuff">
+
+
+</div>
+
+
+
+
+    <script>
+
+function getReceipts(){
+
+// Time to make the base URL! And the donuts!
+
+const apibase = "http://archive.org/wayback/available?url=http://Twitter.com/"
+const suffix = "&timestamp="
+
+// Empty arrays to hold the API
+let waybackdata = {}
+var snaps = {}
+var wbreceipts = {}
+
+// Grabbing all the user data
+var ahandle = document.querySelector(".handle").value  
+var ayear = document.querySelector(".year").value
+var amonth = document.querySelector(".month").value
+var aday = document.querySelector(".day").value
+
+// Open the var, for your, mystery date
+var fulldate = ayear+amonth+aday
+
+// Making a Wayback Machine API query
+var api_url = apibase+ahandle+suffix+fulldate
+
+// Oh great WaybackMachineAPI, tell us things
+fetch(api_url)
+.then(function(response){
+    return response.json()
+})
+.then (function(res){
+    waybackdata=res
+     
+var snaps = waybackdata.archived_snapshots     
+var wbdigging = snaps.closest
+var finalreceipt = wbdigging.url
+
+// Open Wayback Machine URL 
+
+window.open(finalreceipt)
+
+})
+
+}
+       </script>
+
+
+
+
+
+
+</body>
+</html>
